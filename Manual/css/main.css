@@ -123,6 +123,9 @@ body {
         background: url('../img/web-background.jpg');
         background-attachment: fixed;
     }
+	body.dark {
+        background: url('../img/web-background-dark.jpg');
+    }
 }
 
 p,
@@ -203,6 +206,11 @@ td, th {
     border: none;
 }
 
+table.centered {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .centered-img {
     display: block;
     margin-left: auto;
@@ -214,6 +222,7 @@ td, th {
     float: right;
     margin-left: .5em;
     margin-bottom: .5em;
+    background-color: #FFF;
 }
 
 [dir='rtl'] .diagram {
@@ -252,6 +261,9 @@ td, th {
         background-size: 100%;
         width: 8.5in; /* = 8.5in at 12pt (1em) */
         min-height: 11in; /* = 11in at 12pt (1em) */
+    }
+    .dark .page {
+        background-color: #232323;
     }
 }
 
@@ -299,6 +311,43 @@ td, th {
 
 .page-bg-07 {
     background-image: url("../img/page-bg-noise-07.png");
+}
+
+.dark .page-bg-01 {
+    background-image: url("../img/page-bg-noise-01-dark.png");
+}
+
+.dark .page-bg-02 {
+    background-image: url("../img/page-bg-noise-02-dark.png");
+}
+
+.dark .page-bg-03 {
+    background-image: url("../img/page-bg-noise-03-dark.png");
+}
+
+.dark .page-bg-04 {
+    background-image: url("../img/page-bg-noise-04-dark.png");
+}
+
+.dark .page-bg-05 {
+    background-image: url("../img/page-bg-noise-05-dark.png");
+}
+
+.dark .page-bg-06 {
+    background-image: url("../img/page-bg-noise-06-dark.png");
+}
+
+.dark .page-bg-07 {
+    background-image: url("../img/page-bg-noise-07-dark.png");
+}
+
+.dark {
+    color: #ddd;
+    background-color: #222;
+}
+
+.dark table, .dark th, .dark td {
+    border: 1px solid #ccc;
 }
 
 .page-content {
@@ -417,9 +466,6 @@ td, th {
     width: 5.3895625em; /* Hardcoding for IE */
 }
 
-.diagram-label {
-}
-
 .bomb-diagram img {
     height: 11.7em; /* just barely gives enough room for all the other text */
     vertical-align: middle;
@@ -472,18 +518,22 @@ td, th {
 }
 
 .password-table {
-    margin-left: auto;
-    margin-right: auto;
+    margin: 3em auto 0 auto;
+    font-size: 1.2em;
 }
 
-.repeaters-table {
+.password-table td {
+    padding: 0.75em 1em;
+}
+
+.dark .repeaters-table, .repeaters-table {
     width: 98%;
     border: none;
     margin-left: auto;
     margin-right: auto;
 }
 
-.repeaters-spacer {
+.dark .repeaters-spacer, .repeaters-spacer {
     border: none;
 }
 
@@ -546,6 +596,22 @@ td, th {
         font-size: .78em;
     }
 
+.whos-on-morse-step2-table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+    .whos-on-morse-step2-table th {
+        padding-left: 1.2em;
+        padding-right: 1.2em;
+        padding-top: .3em;
+        padding-bottom: .1em;
+    }
+
+    .whos-on-morse-step2-table td {
+        font-size: .9em;
+    }
+
 .keypad-table {
     margin-left: auto;
     margin-right: auto;
@@ -564,6 +630,10 @@ td, th {
     border-style: none;
 }
 
+.dark .keypad-table-spacer, .dark .keypad-table {
+    border-style: none;
+}
+
 .keypad-symbol-image {
     height: 1.9em;
 }
@@ -572,6 +642,11 @@ td, th {
     width: 11em;
     height: 11em;
     margin: .1em;
+}
+
+.maze-grid {
+    text-align: center;
+    margin-top: 3em;
 }
 
 #morseCodeChart {
@@ -592,11 +667,41 @@ td, th {
 .morse-code table th {
     font-size: 1.2em;
     font-weight: bold;
-    width: 5em;
+    width: 5.5em;
 }
 
 .morse-code table td {
     text-align: center;
+}
+
+.morse-signal-table {
+    float: left;
+    margin-right: 1em;
+    height: 32em;
+    width: 24.8270625em;
+    border: 1px solid #021a40;
+    background-color: #ffffff;
+}
+
+.dark .morse-signal-table {
+    background-color: #222;
+}
+
+.morse-signal-table td, .morse-signal-table th {
+    border: none;
+}
+
+.morse-interpret th, .morse-interpret td {
+    padding: 0.4em 0.3em;
+}
+
+.morse-interpret p {
+    margin: 0 1em;
+    font-size: 0.8em;
+}
+
+#morseSignalImg {
+    width: 100%;
 }
 
 .venn-wires table th {
@@ -606,6 +711,11 @@ td, th {
 
 .venn-wires table td {
     text-align: center;
+    font-size: 0.85em;
+}
+
+.venn-wires table td.venn-legend-text {
+    text-align: left;
 }
 
 #venndiagram {
@@ -617,7 +727,6 @@ td, th {
     margin-left: auto;
     margin-right: auto;
 }
-
 
 #vennlegend {
     width: 20em;
@@ -636,13 +745,51 @@ td, th {
     top: -0.7em;
 }
 
+#vennlegendtable {
+    width: 18em;
+    float: left;
+    position: relative;
+    margin-right: 1em;
+    top: -0.7em;
+}
+
+#vennlegendtable td img {
+    text-align: center;
+}
+
+#vennlegendtable td {
+    border: none;
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+}
+
     #venntable td {
         font-size: 0.75em;
     }
 
+#venninstructiontable {
+    position: relative;
+    top: -0.7em;
+}
+
+.venn-legend-line {
+    margin: 1em 0;
+    width: 10em;
+}
+
 .venn-wires .appendix-reference {
     margin-top: 0;
     position: relative;
+}
+
+.venn-wires table {
+    border-width: 0.2em;
+}
+
+#simon-legend {
+    height: 9em;
+    margin: 1em auto;
+    display: block;
 }
 
 .appendix-ports table {
@@ -852,21 +999,17 @@ td, th {
 
 @media print {
     /* Removed all this stuff because we'll be aiming to make everything deliberate for print */
-    * {
+    /* * { */
         /*background: transparent !important;
         color: #000 !important;*/ /* Black prints faster: h5bp.com/s */
         /*box-shadow: none !important;
         text-shadow: none !important;*/
-    }
+    /* } */
 
     a,
     a:visited {
         text-decoration: underline;
     }
-
-        a[href]:after {
-            content: " (" attr(href) ")";
-        }
 
     abbr[title]:after {
         content: " (" attr(title) ")";
@@ -926,6 +1069,10 @@ td, th {
     padding: .3em .7em;
 }
 
+.dark .page-header-section-title.ruleseed-seeded {
+    color: #f44;
+
+}
 .ruleseed-header {
     display: none;
 }
@@ -974,6 +1121,10 @@ td, th {
     padding: 10px 15px 15px 20px;
 }
 
+    .dark #optionsMenu {
+        background: #212121;
+    }
+
     #optionsMenu.open {
         transform: none;
     }
@@ -995,4 +1146,28 @@ td, th {
     #pageTypeOption {
         display: none;
     }
+}
+
+.dark a {
+    color: #F44121;
+}
+
+.dark ::selection {
+    background: #2E58CC;
+    color: white;
+}
+
+.dark .invertible {
+    filter: contrast(75%) invert(100%);
+}
+
+/* Hidden table cells */
+.dark .borderless, .borderless {
+    border: none;
+}
+.dark td.corner, .dark th.corner, td.corner, th.corner {
+    border: none;
+}
+.dark td.empty, .dark th.empty, td.empty, th.empty {
+    border: none;
 }

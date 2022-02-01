@@ -1,0 +1,27 @@
+/* Traditional Chinese Font */
+@font-face {
+  font-family: 'NotoTC';
+  font-style: normal;
+  font-weight: normal;
+  src: url(../font/NotoSansCJKtc-Regular.otf);
+}
+
+@font-face {
+  font-family: 'NotoTC';
+  font-style: normal;
+  font-weight: bold;
+  src: url(../font/NotoSansCJKtc-Bold.otf);
+}
+/* End Traditional Chinese Font */
+
+
+/* Traditional Chinese */
+*[lang='zh-TW'] { font-family: 'NotoTC'; } 		/* Font used in Vanilla Manual */
+*[lang='zh-TW'] .page-header-doc-title { font-family: 'Special Elite'; } 		/* Default font */
+
+/* Other Chinese */
+*[lang='zh-CN'], *[lang='zh'] {
+	/* Reserved for any future changes in Vanilla Bomb Defusal Manual */
+}
+
+

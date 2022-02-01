@@ -1,0 +1,320 @@
+/* Used For The Sequence List */
+@font-face {
+  font-family:Thorn;
+  src:url(Thorn.ttf);
+}
+
+.font0 {
+    font-size:25px;
+	font-family:Thorn;
+}
+
+@font-face {
+	font-family:Slabten;
+	src:url(Slabten.otf);
+}
+
+.font1 {
+	font-size:25px;
+	font-family:Slabten;
+}
+
+@font-face {
+	font-family:Roundfra;
+	src:url(Roundfra.ttf);
+}
+
+.font2 {
+	font-size:25px;
+	font-family:Roundfra;
+}
+
+@font-face {
+	font-family:Anoxic;
+	src:url(Anoxic.ttf);
+}
+
+.font3 {
+	font-size:25px;
+	font-family:Anoxic;
+}
+
+@font-face {
+	font-family:Gavabon;
+	src:url(Gavabon.otf);
+}
+
+.font4 {
+	font-size:25px;
+	font-family:Gavabon;
+}
+
+@font-face {
+	font-family:Nadilla;
+	src:url(Nadilla.otf);
+}
+
+.font5 {
+	font-size:25px;
+	font-family:Nadilla;
+}
+
+@font-face {
+	font-family:Calderdale;
+	src:url(Calderdale.ttf);
+}
+
+.font6 {
+	font-size:25px;
+	font-family:Calderdale;
+}
+
+@font-face {
+	font-family:BurningSun;
+	src:url(BurningSun.ttf);
+}
+
+.font7 {
+	font-size:25px;
+	font-family:BurningSun;
+}
+
+@font-face {
+	font-family:Waringtons;
+	src:url(Waringtons.ttf);
+}
+
+.font8 {
+	font-size:25px;
+	font-family:Waringtons;
+}
+
+@font-face {
+	font-family:VTKSBlocketo;
+	src:url(VTKSBlocketo.ttf);
+}
+
+.font9 {
+	font-size:25px;
+	font-family:VTKSBlocketo;
+}
+
+@font-face {
+	font-family:Brittanian;
+	src:url(Brittanian.ttf);
+}
+
+.font10 {
+	font-size:25px;
+	font-family:Brittanian;
+}
+
+@font-face {
+	font-family:Corners;
+	src:url(Corners.ttf);
+}
+
+.font11 {
+	font-size:25px;
+	font-family:Corners;
+}
+
+@font-face {
+	font-family:OkayAgain;
+	src:url(OkayAgain.ttf);
+}
+
+.font12 {
+	font-size:25px;
+	font-family:OkayAgain;
+}
+
+@font-face {
+	font-family:QtieScript;
+	src:url(QtieScript.ttf);
+}
+
+.font13 {
+	font-size:25px;
+	font-family:QtieScript;
+}
+
+@font-face {
+	font-family:AlAtharaSabil;
+	src:url(AlAtharaSabil.otf);
+}
+
+.font14 {
+	font-size:25px;
+	font-family:AlAtharaSabil;
+}
+
+@font-face {
+	font-family:LostLeonest;
+	src:url(LostLeonest.otf);
+}
+
+.font15 {
+	font-size:25px;
+	font-family:LostLeonest;
+}
+
+@font-face {
+	font-family:MalvineW;
+	src:url(MalvineW.ttf);
+}
+
+.font16 {
+	font-size:25px;
+	font-family:MalvineW;
+}
+
+@font-face {
+	font-family:Eleganta;
+	src:url(Eleganta.ttf);
+}
+
+.font17 {
+	font-size:25px;
+	font-family:Eleganta;
+}
+
+@font-face {
+	font-family:ThickBookstaves;
+	src:url(ThickBookstaves.otf);
+}
+
+.font18 {
+	font-size:25px;
+	font-family:ThickBookstaves;
+}
+
+@font-face {
+	font-family:RomanMorrissey;
+	src:url(RomanMorrissey.ttf);
+}
+
+.font19 {
+	font-size:25px;
+	font-family:RomanMorrissey;
+}
+
+@font-face {
+	font-family:Valtin;
+	src:url(Valtin.ttf);
+}
+
+.font20 {
+	font-size:25px;
+	font-family:Valtin;
+}
+
+@font-face {
+	font-family:Cikandei;
+	src:url(Cikandei.ttf);
+}
+
+.font21 {
+	font-size:25px;
+	font-family:Cikandei;
+}
+
+@font-face {
+	font-family:Qarius;
+	src:url(Qarius.ttf);
+}
+
+.font22 {
+	font-size:25px;
+	font-family:Qarius;
+}
+
+@font-face {
+	font-family:KidsShapeBasic;
+	src:url(KidsShapeBasic.ttf);
+}
+
+.font23 {
+	font-size:25px;
+	font-family:KidsShapeBasic;
+}
+
+@font-face {
+	font-family:VTKSCriminal75;
+	src:url(VTKSCriminal75.ttf);
+}
+
+.font24 {
+	font-size:25px;
+	font-family:VTKSCriminal75;
+}
+
+@font-face {
+	font-family:TanomuzeCowboy;
+	src:url(TanomuzeCowboy.ttf);
+}
+
+.font25 {
+	font-size:25px;
+	font-family:TanomuzeCowboy;
+}
+
+@font-face {
+	font-family:QuiteColorful;
+	src:url(QuiteColorful.ttf);
+}
+
+.font26 {
+	font-size:25px;
+	font-family:QuiteColorful;
+}
+
+@font-face {
+	font-family:CrunchyPasta;
+	src:url(CrunchyPasta.ttf);
+}
+
+.font27 {
+	font-size:25px;
+	font-family:CrunchyPasta;
+}
+
+@font-face {
+	font-family:Luminousity;
+	src:url(Luminousity.ttf);
+}
+
+.font28 {
+	font-size:25px;
+	font-family:Luminousity;
+}
+
+@font-face {
+	font-family:Gitar;
+	src:url(Gitar.ttf);
+}
+
+.font29 {
+	font-size:25px;
+	font-family:Gitar;
+}
+
+@font-face {
+	font-family:DrMingo;
+	src:url(DrMingo.ttf);
+}
+
+.font30 {
+	font-size:25px;
+	font-family:DrMingo;
+}
+
+@font-face {
+	font-family:DreamHer;
+	src:url(DreamHer.ttf);
+}
+
+.font31 {
+	font-size:25px;
+	font-family:DreamHer;
+}

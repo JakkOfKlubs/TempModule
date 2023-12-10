@@ -71,14 +71,12 @@ namespace KModkit
         	{
         		// Use AssemblyQualifiedName and the member name as a unique key to prevent a collision if two types have the same member name
         		var key = type.AssemblyQualifiedName + member;
-        #pragma warning disable IDE0038
         		if (MemberCache.ContainsKey(key)) return MemberCache[key] is T ? (T) MemberCache[key] : null;
         
         		MemberInfo memberInfo = type.GetMember(member, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance).FirstOrDefault();
         		MemberCache[key] = memberInfo;
         
         		return memberInfo is T ? (T) memberInfo : null;
-        #pragma warning restore IDE0038
         	}
         
         	public static T GetValue<T>(this Type type, string member, object target = null)
@@ -103,9 +101,7 @@ namespace KModkit
         	public static T CallMethod<T>(this Type type, string method, object target = null, params object[] arguments)
         	{
         		var member = type.GetCachedMember<MethodInfo>(method);
-        #pragma warning disable IDE0034, IDE0034WithoutSuggestion, RCS1244
         		return member != null ? (T) member.Invoke(target, arguments) : default(T);
-        #pragma warning restore IDE0034, IDE0034WithoutSuggestion, RCS1244
         	}
         
         	public static void CallMethod(this Type type, string method, object target = null, params object[] arguments)

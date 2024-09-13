@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿#pragma warning disable 436
+
+using UnityEditor;
 using Steamworks;
 using UnityEngine;
 using System.IO;
@@ -15,6 +17,7 @@ public class WorkshopEditorWindow : EditorWindow
 
     protected bool isInitialized;
     protected string userName;
+    protected ulong userID;
 
     protected WorkshopItem currentWorkshopItem;
     protected WorkshopItemEditor workshopItemEditor;
@@ -22,6 +25,7 @@ public class WorkshopEditorWindow : EditorWindow
 
     protected CallResult<CreateItemResult_t> onCreateItemCallResultHandler;
     protected CallResult<SubmitItemUpdateResult_t> onItemUpdateCallResultHandler;
+    protected CallResult<SteamUGCQueryCompleted_t> onQueryCompletedCallResultHandler;
 
     protected UGCUpdateHandle_t ugcUpdateHandle = UGCUpdateHandle_t.Invalid;
     protected string ugcUpdateStatus;
@@ -30,16 +34,33 @@ public class WorkshopEditorWindow : EditorWindow
     protected ulong bytesTotal;
 
     private SteamAPIWarningMessageHook_t m_SteamAPIWarningMessageHook;
+    
+    private bool PublishButtonEnabled
+    {
+        get
+        {
+            return !string.IsNullOrEmpty(changeNotes) && 
+                   IsCallResultInactive(onCreateItemCallResultHandler) &&
+                   IsCallResultInactive(onItemUpdateCallResultHandler) &&
+                   IsCallResultInactive(onQueryCompletedCallResultHandler);
+        }
+    }
+    
     private static void SteamAPIDebugTextHook(int nSeverity, System.Text.StringBuilder pchDebugText)
     {
         Debug.LogWarning(pchDebugText);
     }
 
-    [MenuItem("Keep Talking ModKit/Steam Workshop Tool _#F6", priority = 20)]
+    [MenuItem("Keep Talking ModKit/Steam Workshop Tool _#F5", priority = 20)]
     protected static void ShowWindow()
     {
         WorkshopEditorWindow window = EditorWindow.GetWindow<WorkshopEditorWindow>("Workshop");
         window.Show();
+    }
+
+    private bool IsCallResultInactive<T>(CallResult<T> callResult)
+    {
+        return callResult != null && !callResult.IsActive();
     }
 
     protected void OnGUI()
@@ -143,9 +164,9 @@ public class WorkshopEditorWindow : EditorWindow
                 EditorGUILayout.HelpBox("Change notes must be entered before publishing to Workshop", MessageType.Warning);
             }
             
-            if(dir.GetFiles("modInfo_Harmony.json").Length > 0)
+            if(dir.Exists && dir.GetFiles("modInfo_Harmony.json").Length > 0)
 			{
-				EditorGUILayout.HelpBox("Your mod uses the Harmony library. This means it won't work without the Harmony mod, so on the Workshop, please either add the Harmony mod as a dependency or mention it in the description!", MessageType.Warning);
+				EditorGUILayout.HelpBox("Your mod uses the Harmony library. This means it won't work without the Tweaks mod, so on the Workshop, please either add Tweaks as a dependency or mention it in the description!", MessageType.Warning);
 			}
 
 
@@ -153,7 +174,7 @@ public class WorkshopEditorWindow : EditorWindow
             if (currentWorkshopItem.WorkshopPublishedFileID == 0)
             {
                 //Create and Publish
-                GUI.enabled = (onCreateItemCallResultHandler != null && !onCreateItemCallResultHandler.IsActive() && !string.IsNullOrEmpty(changeNotes));
+                GUI.enabled = PublishButtonEnabled;
                 if (GUILayout.Button("Create New Workshop Item and Publish to Steam"))
                 {
                     Debug.Log("CreateItem");
@@ -165,10 +186,10 @@ public class WorkshopEditorWindow : EditorWindow
             else
             {
                 //Publish to Existing Item
-                GUI.enabled = (onItemUpdateCallResultHandler != null && !onItemUpdateCallResultHandler.IsActive() && !string.IsNullOrEmpty(changeNotes));
+                GUI.enabled = PublishButtonEnabled;
                 if (GUILayout.Button("Publish Changes to Steam"))
                 {
-                    PublishWorkshopChanges();
+                    QueryAuthorAndPublish();
                 }
 				
                 if (!string.IsNullOrEmpty(ugcUpdateStatus))
@@ -203,7 +224,16 @@ public class WorkshopEditorWindow : EditorWindow
         }
     }
 
-    protected void PublishWorkshopChanges()
+    protected void QueryAuthorAndPublish()
+    {
+        var queryHandle =
+            SteamUGC.CreateQueryUGCDetailsRequest(
+                new[] { new PublishedFileId_t(currentWorkshopItem.WorkshopPublishedFileID) }, 1);
+        var queryCall = SteamUGC.SendQueryUGCRequest(queryHandle);
+        onQueryCompletedCallResultHandler.Set(queryCall);
+    }
+
+    protected void PublishWorkshopChanges(bool ownerChange)
     {
         Debug.LogFormat("SubmitItemUpdate for File ID {0}", currentWorkshopItem.WorkshopPublishedFileID);
         ugcUpdateHandle = SteamUGC.StartItemUpdate(KTANE_APP_ID, new PublishedFileId_t(currentWorkshopItem.WorkshopPublishedFileID));
@@ -217,7 +247,7 @@ public class WorkshopEditorWindow : EditorWindow
             SteamUGC.SetItemTags(ugcUpdateHandle, GetTags());
         }
 
-        if (ModConfig.PreviewImage != null)
+        if (ownerChange && ModConfig.PreviewImage != null)
         {
             string previewImagePath = AssetDatabase.GetAssetPath(ModConfig.PreviewImage);
             previewImagePath = Path.GetFullPath(previewImagePath);
@@ -230,7 +260,11 @@ public class WorkshopEditorWindow : EditorWindow
         Debug.LogFormat("Uploading contents of {0}", folder);
         SteamUGC.SetItemContent(ugcUpdateHandle, folder);
 
-        var updateUGCCall = SteamUGC.SubmitItemUpdate(ugcUpdateHandle, changeNotes);
+        var _changeNotes = changeNotes;
+        if(!ownerChange)
+            _changeNotes = string.Format("Contrib. [{0}]( https://steamcommunity.com/profiles/{1} )\n\n{2}", userName, userID, _changeNotes);
+        
+        var updateUGCCall = SteamUGC.SubmitItemUpdate(ugcUpdateHandle, _changeNotes);
         onItemUpdateCallResultHandler.Set(updateUGCCall);
     }
 
@@ -256,9 +290,11 @@ public class WorkshopEditorWindow : EditorWindow
             if (isInitialized)
             {
                 userName = SteamFriends.GetPersonaName();
+                userID = SteamUser.GetSteamID().m_SteamID;
 
                 onCreateItemCallResultHandler = CallResult<CreateItemResult_t>.Create(OnCreateItem);
                 onItemUpdateCallResultHandler = CallResult<SubmitItemUpdateResult_t>.Create(OnSubmitItemUpdate);
+                onQueryCompletedCallResultHandler = CallResult<SteamUGCQueryCompleted_t>.Create(OnUGCQueryComplete);
 
                 if (m_SteamAPIWarningMessageHook == null)
                 {
@@ -337,7 +373,7 @@ public class WorkshopEditorWindow : EditorWindow
             currentWorkshopItem.WorkshopPublishedFileID = result.m_nPublishedFileId.m_PublishedFileId;
             AssetDatabase.SaveAssets();
 
-            PublishWorkshopChanges();
+            QueryAuthorAndPublish();
         }
     }
 
@@ -355,6 +391,22 @@ public class WorkshopEditorWindow : EditorWindow
         ugcUpdateHandle = UGCUpdateHandle_t.Invalid;
         ugcUpdateStatus = string.Format("Upload Status: {0} ({1})", result.m_eResult, System.DateTime.Now.ToShortTimeString());
         Repaint();
+    }
+
+    protected void OnUGCQueryComplete(SteamUGCQueryCompleted_t result, bool failed)
+    {
+        if (result.m_eResult != EResult.k_EResultOK)
+        {
+            Debug.LogErrorFormat("QueryUGCRequest complete: {0}", result.m_eResult);
+            return;
+        }
+
+        Debug.LogFormat("QueryUGCRequest complete: {0}", result.m_eResult);
+
+        SteamUGCDetails_t details;
+        SteamUGC.GetQueryUGCResult(result.m_handle, 0, out details);
+        SteamUGC.ReleaseQueryUGCRequest(result.m_handle);
+        PublishWorkshopChanges(details.m_ulSteamIDOwner == userID);
     }
 
     public static string FormatFileSize(long fileSize)
